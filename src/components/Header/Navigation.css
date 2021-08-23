@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+nav {
+    padding: 1rem;
+    text-align: center;
+}
+
+nav ul {
+    display: inline;
+}
+
+nav li {
+    margin: 1rem;
+    padding: rem;
+    color: #ffecd2;
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+}
