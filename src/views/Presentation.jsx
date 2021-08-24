@@ -1,19 +1,32 @@
 import { useState, useEffect } from "react";
+import { useRouteMatch } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
+
+import Society from "../components/Society";
+import Vehicle from "../components/Vehicle";
 
 import "./Presentation.css"
 
 
 const excludesAccounts =[
-	"bank_savings", "pacific_deposit", "pacific_enterprise", "pacific_exchange",
-	"society_gouv"
+	"bank_savings", "pacific_deposit", "pacific_enterprise", "pacific_exchange", "property_black_money",
+	"society_gouv",
 ]
 
 const Presentation = () => {
 
 	const [societies, setSocieties] = useState([])
+	const [categories, setCategories] = useState([])
+	const [vehicles, setVehicles] = useState([])
+
+	let match = useRouteMatch("/presentation/:society");
+
+	console.log(match)
 
 	useEffect(() => {
 		let _societies =[]
+		let _categories =[]
+		let _vehicles =[]
 
 		fetch("http://localhost:3002/api/societies").then(res => res.json()).then(res => {
 
@@ -32,47 +45,91 @@ const Presentation = () => {
 			setSocieties(_societies)
 		});
 
+		fetch("http://localhost:3002/api/vehicles/sales").then(res => res.json()).then(res => {
+
+			Object.entries(res).forEach(vehiclesSales => {
+				_categories.push(vehiclesSales[0]);
+				
+				if (vehiclesSales[1].length > 0) {
+
+					vehiclesSales[1].map(vehicle => {
+						console.log("vehicle : ", vehicle)
+						_vehicles.push(
+							{
+								model : vehicle.model,
+								name : vehicle.name,
+								price : vehicle.price,
+								category : vehiclesSales[0],
+								image : vehicle.image
+							}
+						)
+					});
+				}
+			})
+			console.log(_vehicles)
+			setCategories(_categories)
+			setVehicles(_vehicles)
+		});
+
 	
-	}, []);
-	
+	}, []);	
 
 	return (
 		<main className="container" id="presentation">
-			{
-				societies
-				?
-					<div className="row">
-						
+			<div className="row">
+
+				{
+					societies
+					?
 						<div className="col-11 m-5">
-							<h4 className="mb-3">
-								Liste des sociétés de la ville:
-							</h4>
+							<h3 className="mb-3">Liste des sociétés de la ville:</h3>
 
 							<div className="row">
 								{
 									societies.map(society =>
-										<div class="col-3">
-											<div className="card" style={{ width: "14rem" }}>
-												<img
-													className = "card-img-top p-2"
-													src = {`${process.env.PUBLIC_URL}/images/societies/${society.name}.png`}
-													alt = "Card image cap"
-												/>
-												<div className="card-body">
-													<h5 className="card-title">{society.label}</h5>
-													<button class="position-absolute bottom-0 start-50 translate-middle badge rounded-pill bg-primary">Détails</button>
-												</div>
-											</div>
-										</div>
+										<Society society={society} key={uuidv4()} />
 									)
 								}
 							</div>
-						</div>
+						</div>		
+					: null
+				}
 
-					</div>
-					
-				: null
-			}
+				{
+					categories && vehicles
+					?
+						<div className="col-11 m-5">
+							<h3>Liste des véhicles en vente:</h3>
+
+							<ul>
+								{
+								categories.map(category =>
+
+										<div>
+											<h4>{category}</h4>
+
+											<div className="row">
+											{
+													vehicles.map(vehicle => 
+
+														vehicle.category === category
+														?
+															<Vehicle vehicle={vehicle} key={uuidv4()} />
+														:
+															null											
+													)
+												}
+											</div>
+										</div>
+								)
+							}
+							</ul>
+						</div>
+					:
+						null
+				}
+
+			</div>
 		</main>
 	)
 }
