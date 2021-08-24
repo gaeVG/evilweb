@@ -1,10 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+
 body {
-  background-image: url("./images/background.png");
-  background-size: cover;
-  background-attachment: fixed;
+	background-image: url("./images/background.png");
+	background-size: cover;
+	background-attachment: fixed;
 }
 
-main {
-  background: rgb(194, 148, 145, 0.5);
-  background: linear-gradient(90deg, rgba(194,148,145,0.5) 0%, rgba(249,202,194,0.5) 50%, rgba(163,142,179,0.5) 100%);
+main  {
+	min-height: 60rem;
+	margin-bottom: 5rem;
+	background: rgb(194, 148, 145, 0.5);
+	background: linear-gradient(90deg, rgba(194,148,145,0.5) 0%, rgba(249,202,194,0.5) 50%, rgba(163,142,179,0.5) 100%);
+}
+
+footer {
+	min-height: 30rem;
+	background: rgb(194, 148, 145, 0.5);
+	background: linear-gradient(90deg, rgba(194,148,145,0.5) 0%, rgba(249,202,194,0.5) 50%, rgba(163,142,179,0.5) 100%);
 }
