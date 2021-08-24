@@ -1,7 +1,7 @@
 const Home = () =>
-    <div>
-        Main
-    </div>
+	<div>
+		Main
+	</div>
 
 
 export default Home
