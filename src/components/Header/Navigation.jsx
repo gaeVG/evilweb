@@ -5,8 +5,7 @@ import "./Navigation.css"
 const Navigation = () => {
 
     return (
-     
-        <nav className="row">
+        <nav class="col-12 p-2">
             <ul>
                 <Link to="/"><li>Accueil</li></Link>
                 <Link to="/"><li>Dernières nouvelles</li></Link>
