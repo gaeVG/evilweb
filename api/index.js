@@ -55,6 +55,52 @@ app.get("/api/societies", (req, res) => {
 	});
 });
 
+app.get("/api/vehicles/sales", (req, res) => {
+	let vehiclesSales ={}
+
+	db.query("SELECT * FROM vehicle_categories", (catErr, catResult) => {
+	
+		if (catErr) {
+			console.log(catErr)
+		}
+
+		let categories = catResult.map(category => {
+			if (!vehiclesSales[category.label]) vehiclesSales[category.label] =[]
+		})
+
+
+		db.query("SELECT * FROM vehicleshops LEFT JOIN vehicles ON vehicles.model = vehicleshops.vehicle", (vehErr, vehResult)=> {
+		
+			if (vehErr) {
+				console.log(vehErr)
+			}
+
+			vehResult.map(vehicle => {
+
+				let vehCategory
+
+				catResult.map(cat => {
+					if (vehicle.category === cat.name) vehCategory = cat.label
+				});
+
+				if (vehiclesSales[vehCategory]) {
+
+					vehiclesSales[vehCategory].push(
+						{
+							model : vehicle.model,
+							name : vehicle.name,
+							price : vehicle.price,
+							image : vehicle.img
+						}
+					)
+				}
+			});
+
+			res.send(vehiclesSales)
+		});
+	});
+});
+
 app.get("/api/user/:steamID", (req,res)=>{
 
 	const steamID = req.params.steamID;
