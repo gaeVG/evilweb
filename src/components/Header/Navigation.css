@@ -1,7 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
-
 nav {
-    padding: 1rem;
+    background-color: #ffffff44;
+
     text-align: center;
 }
 
@@ -12,7 +11,11 @@ nav ul {
 nav li {
     margin: 1rem;
     padding: rem;
-    color: #ffecd2;
+    color: #31012f;
     font-family: "Roboto", Helvetica, Arial, sans-serif;
     text-transform: uppercase;
+}
+
+nav a {
+    text-decoration: none;
 }
